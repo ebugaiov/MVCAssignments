@@ -1,0 +1,40 @@
+@model MVCAssignments.Models.BodyTemperature
+
+@{
+    ViewData["Title"] = "Body Temperature";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card shadow-sm" style="width: 28rem; height: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title text-center mb-4">Body Temperature</h5>
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="Value" class="form-label">Enter Temperature:</label>
+                    <input type="number" asp-for="Value" class="form-control" step="0.1" required />
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="alert alert-info mt-3 text-center" id="messageAlert" style="display: none;">
+                        @Model.Message
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+   
+   @section Scripts {
+       <script>
+           document.addEventListener("DOMContentLoaded", function () {
+               const alert = document.getElementById("messageAlert");
+               if (alert) {
+                   $(alert).fadeIn("slow");
+               }
+           });
+       </script>
+   }
+    
+</div>
