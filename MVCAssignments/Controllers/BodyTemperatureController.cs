@@ -15,7 +15,6 @@ public class BodyTemperatureController : Controller
     [HttpPost]
     public IActionResult Index(BodyTemperature obj)
     {
-        
         return View(obj);
     }
 }

@@ -1,10 +1,10 @@
 namespace MVCAssignments.Models;
 
-public class BodyTemperature
+public class BodyTemperature : IFormInput
 {
     public double Value { get; set; }
 
-    public string? Message
+    public string Message
     {
         get
         {
@@ -21,9 +21,10 @@ public class BodyTemperature
             }
             else
             {
-                return string.Empty;
+                return "Incorrect value";
             }
         }
+        set { }
     }
     
 }
