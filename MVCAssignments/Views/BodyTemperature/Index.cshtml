@@ -1,4 +1,4 @@
-@model MVCAssignments.Models.BodyTemperature
+@model BodyTemperature
 
 @{
     ViewData["Title"] = "Body Temperature";
@@ -8,21 +8,23 @@
     <div class="card shadow-sm" style="width: 28rem; height: 20rem;">
         <div class="card-body">
             <h5 class="card-title text-center mb-4">Body Temperature</h5>
-            <form method="post">
+            <form method="post" asp-action="Index">
                 <div class="mb-3">
                     <label asp-for="Value" class="form-label">Enter Temperature:</label>
-                    <input type="number" asp-for="Value" class="form-control" step="0.1" placeholder=" " required />
+                    <input type="number" asp-for="Value" class="form-control" step="0.1" placeholder=" " required autofocus/>
+                    <span asp-validation-for="Value" class="text-danger"></span>
                 </div>
                 <div class="d-flex flex-column gap-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a asp-controller="BodyTemperature" asp-action="Index" class="btn btn-secondary">Clean</a>
+                    <input type="submit" value="Check" class="btn btn-primary"/>
                 </div>
-                @if (!string.IsNullOrEmpty(Model.Message))
+
+                @if (Model != null && !string.IsNullOrEmpty(Model.Message) && ViewData.ModelState.IsValid)
                 {
                     <div class="alert alert-info mt-3 text-center" id="messageAlert" style="display: none;">
                         @Model.Message
                     </div>
                 }
+
             </form>
         </div>
     </div>

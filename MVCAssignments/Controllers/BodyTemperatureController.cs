@@ -5,13 +5,13 @@ namespace MVCAssignments.Controllers;
 
 public class BodyTemperatureController : Controller
 {
-    [HttpGet]
+    [Route("CheckTemperature")]
     public IActionResult Index()
     {
-        BodyTemperature bodyTemp = new();
-        return View(bodyTemp);
+        return View();
     }
 
+    [Route("CheckTemperature")]
     [HttpPost]
     public IActionResult Index(BodyTemperature obj)
     {
