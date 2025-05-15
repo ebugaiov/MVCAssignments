@@ -1,0 +1,11 @@
+@model Product
+
+<div class="col">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.ProductName</h5>
+            <p class="card-text">@Model.ProductDescription</p>
+            <h5 class="text-nowrap">@Model.ProductPrice.ToString("c")</h5>
+        </div>
+    </div>    
+</div>

@@ -11,4 +11,8 @@
       <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
 </Project>
