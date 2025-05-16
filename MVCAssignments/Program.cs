@@ -9,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSession();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>(sp => new ProductRepository(sp));
+builder.Services.AddScoped<IGuessGameRepository, GuessGameRepository>(sp => new GuessGameRepository(sp));
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

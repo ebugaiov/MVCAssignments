@@ -6,43 +6,42 @@ namespace MVCAssignments.Controllers;
 
 public class GuessGameController : Controller
 {
-    private const string SessionKeyGuessNum = "_GuessNumber";
-    private const string SessionKeyCounter = "_Counter";
+    private IGuessGameRepository _guessGameRepository;
 
-    public int GetCounter()
+    public GuessGameController(IGuessGameRepository guessGameRepository)
     {
-        return (int)(HttpContext.Session.GetInt32(SessionKeyCounter) ?? 0);
+        _guessGameRepository = guessGameRepository;
     }
     
-    public void IncCounter()
-    {
-        int counter = GetCounter();
-        HttpContext.Session.SetInt32(SessionKeyCounter, counter + 1);
-    }
-
     public IActionResult Index()
     {
-        HttpContext.Session.SetInt32(SessionKeyGuessNum, new Random().Next(1, 100));
-        GuessGame guessGame = new();
-        int counter = GetCounter();
-        return View(new GuessGameViewModel(guessGame, counter));
+        _guessGameRepository.SetRandomNumber();
+        GuessGameViewModel viewModel = new()
+        {
+            GuessGame = new GuessGame(),
+            Counter = _guessGameRepository.GetCounter()
+        };
+        
+        string? message = Request.Query["message"];
+        if (!string.IsNullOrEmpty(message))
+        {
+            viewModel.GuessGame.Message = message;
+        }
+        
+        return View(viewModel);
     }
-
+    
     [HttpPost]
     public IActionResult Index(GuessGame guessGame)
     {
-        int guessNumber = (int)HttpContext.Session.GetInt32(SessionKeyGuessNum)!;
-        int inputValue = guessGame.Value;
-        Console.WriteLine(guessNumber);
-        if (inputValue == guessNumber)
+        if (ModelState.IsValid)
         {
-            IncCounter();
-            guessGame.Message = "You win!";    
+            if (guessGame.IsGuessed(_guessGameRepository.GetRandomNumber()))
+            {
+                _guessGameRepository.IncCounter();
+                return RedirectToAction("Index", new { message = guessGame.Message });
+            }
         }
-        else if (guessGame.Value < guessNumber)
-            guessGame.Message = "Try a higher number.";
-        else
-            guessGame.Message = "Try a lower number.";
-        return View(new GuessGameViewModel(guessGame, GetCounter()));
+        return View(new GuessGameViewModel(guessGame, _guessGameRepository.GetCounter()));
     }
 }

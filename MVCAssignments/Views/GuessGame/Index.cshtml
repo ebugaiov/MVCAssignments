@@ -1,5 +1,4 @@
-@model MVCAssignments.ViewModels.GuessGameViewModel
-
+@model GuessGameViewModel
 @{
     ViewData["Title"] = "Guess Game";
 }
@@ -8,13 +7,16 @@
     <div class="card shadow-sm" style="width: 28rem; height: 20rem;">
         <div class="card-body">
             <h5 class="card-title text-center mb-4">Guess Game(You have won: @Model.Counter time(s))</h5>
-            <form method="post">
+            <form method="post" asp-action="Index">
                 <div class="mb-3">
                     <label asp-for="GuessGame.Value" class="form-label">Enter Your Number (1 - 99):</label>
-                    <input type="number" asp-for="GuessGame.Value" class="form-control" step="0.1" placeholder=" " required />
+                    <input type="number" asp-for="GuessGame.Value"
+                           class="form-control" step="1" required autofocus
+                           value="@(Model.GuessGame.Value == 0 ? "" : Model.GuessGame.Value )"
+                    />
                 </div>
                 <div class="d-flex flex-column gap-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <input type="submit" value="Check" class="btn btn-primary" />
                     <a asp-controller="GuessGame" asp-action="Index" class="btn btn-secondary">Start New Game</a>
                 </div>
                 @if (!string.IsNullOrEmpty(Model.GuessGame.Message) && ViewData.ModelState.IsValid)
